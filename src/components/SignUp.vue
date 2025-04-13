@@ -2,13 +2,14 @@
 import { ref } from 'vue'
 import BasicInput from './BasicInput.vue'
 import { postJSON } from '../api-client/api-client'
+import config from '../config.js'
 
 const username = ref('')
 const email = ref('')
 const password = ref('')
 
 function onSubmit (e: Event) {
-  postJSON("/api/users", {
+  postJSON(`${config.apiBaseURL}/api/users`, {
       username: username.value,
       password: password.value,
       email: email.value

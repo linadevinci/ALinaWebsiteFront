@@ -1,5 +1,3 @@
-import { signUp } from "./signup.js"
-import { signIn } from "./signin.js"
 import SignUp from './components/SignUp.vue';
 import SignIn from './components/SignIn.vue';
 import App from './App.vue'
