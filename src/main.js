@@ -1,38 +1,38 @@
-import SignUp from './components/SignUp.vue';
-import SignIn from './components/SignIn.vue';
-import App from './App.vue'
+// import SignUp from './components/SignUp.vue';
+// import SignIn from './components/SignIn.vue';
+// import App from './App.vue'
 
-import { createRouter, createWebHistory } from "vue-router"
-import { ref, computed, createApp } from 'vue'
-import 'uno.css'
-import '@una-ui/preset/una.css'
+// import { createRouter, createWebHistory } from "vue-router"
+// import { ref, computed, createApp } from 'vue'
+// import 'uno.css'
+// import '@una-ui/preset/una.css'
 
-const routes = [
-  {
-    name: 'Home',
-    path: '/',
-    redirect: '/signin'
-  },
-  {
-    name: 'SignIn',
-    path: '/signin',
-    component: SignIn
-  },
-  {
-    name: 'SignUp',
-    path: '/signup',
-    component: SignUp
-  },
-]
+// const routes = [
+//   {
+//     name: 'Home',
+//     path: '/',
+//     redirect: '/signin'
+//   },
+//   {
+//     name: 'SignIn',
+//     path: '/signin',
+//     component: SignIn
+//   },
+//   {
+//     name: 'SignUp',
+//     path: '/signup',
+//     component: SignUp
+//   },
+// ]
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-})
+// const router = createRouter({
+//   history: createWebHistory(),
+//   routes,
+// })
 
-createApp(App)
-  .use(router)
-  .mount('#app')
+// createApp(App)
+//   .use(router)
+//   .mount('#app')
 
 // const radioButtons = document.querySelectorAll('[name="formType"]')
 
@@ -62,3 +62,42 @@ createApp(App)
 // if (signinFormEl) {
 //   signinFormEl.addEventListener('submit', signIn)
 // }
+
+
+
+import { createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
+
+import App from './App.vue'
+import SignUp from './components/SignUp.vue'
+import SignIn from './components/SignIn.vue'
+import Dashboard from './components/Dashboard.vue'
+import LandingPage from './components/LandingPage.vue'
+
+function isAuthenticated() {
+  return !!localStorage.getItem('authUsername')
+}
+
+const routes = [
+  { name: 'Landing', path: '/', component: LandingPage },
+  { name: 'SignIn', path: '/signin', component: SignIn, meta: { requiresGuest: true } },
+  { name: 'SignUp', path: '/signup', component: SignUp, meta: { requiresGuest: true } },
+  { name: 'Dashboard', path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } }
+]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !isAuthenticated()) {
+    next({ path: '/signin' })
+  } else if (to.meta.requiresGuest && isAuthenticated()) {
+    next({ path: '/dashboard' })
+  } else {
+    next()
+  }
+})
+
+createApp(App).use(router).mount('#app')

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { ref } from 'vue'
 import BasicInput from './BasicInput.vue';
 import { postJSON } from '../api-client/api-client';
@@ -34,4 +34,16 @@ function onSubmit(e: Event) {
       <input class="btn" type="submit" value="Sign in">
     </fieldset>
   </form>
+</template> -->
+
+<template>
+  <form @submit="signIn">
+    <input id="username" placeholder="Nom d'utilisateur" required />
+    <input id="password" type="password" placeholder="Mot de passe" required />
+    <button type="submit">Se connecter</button>
+  </form>
 </template>
+
+<script setup>
+import { signIn } from '../signin.js'
+</script>
