@@ -42,10 +42,13 @@ import AppHeader from './components/AppHeader.vue';
         <button class="btn-main">C'est parti !</button>
       </div>
 
-      <div class="quote-box">
-        <p class="quote">"Le plus grand risque est de ne prendre aucun risque."</p>
-        <p class="author">— Mark Zuckerberg</p>
+      <div class="quote-box" v-if="quote">
+        <p class="quote">"{{ quote.text }}"</p>
+        <p class="author">— {{ quote.author }}</p>
       </div>
+      <p v-else-if="error" class="quote">{{ error }}</p>
+      <p v-else class="quote">Chargement de la citation...</p>
+
     </main>
   </div>
 </template>
@@ -170,5 +173,28 @@ export default {
   color: #666;
 }
 </style>
+<script>
+import { onMounted, ref } from 'vue';
+import { getQuote } from './api-client/api-client.js';
+
+export default {
+  name: "Home",
+  setup() {
+    const quote = ref(null);
+    const error = ref(null);
+
+    onMounted(async () => {
+      try {
+        quote.value = await getQuote();
+      } catch (err) {
+        error.value = "Impossible de récupérer la citation.";
+        console.error(err);
+      }
+    });
+
+    return { quote, error };
+  }
+};
+</script>
 
 
