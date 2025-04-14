@@ -28,7 +28,6 @@ async function handleSubmit() {
       return
     }
 
-    // login auto après création
     const loginRes = await postJSON('/api/token', {
       username: username.value,
       password: password.value
@@ -45,41 +44,8 @@ async function handleSubmit() {
 
     window.location.href = '/dashboard'
   } catch (err) {
-    console.error(err)
     alert("Erreur lors de l'inscription")
+    console.error(err)
   }
 }
 </script>
-
-<style scoped>
-form {
-  max-width: 400px;
-  margin: 4rem auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 2rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-input, button {
-  padding: 0.8rem;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-button {
-  background-color: #84d4fd;
-  color: white;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #5bc0f8;
-}
-</style>

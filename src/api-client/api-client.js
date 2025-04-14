@@ -1,30 +1,18 @@
-// export function postJSON (url, data) {
-//   return fetch(url, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(data)
-//   })
-// }
-
-import config from '../config.js'
+const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export async function postJSON(path, data) {
-  const res = await fetch(`${config.apiBaseURL}${path}`, {
+  const res = await fetch(`${baseURL}${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
-  return res.json()
+  return await res.json()
 }
 
 export async function getJSON(path) {
-  const res = await fetch(`${config.apiBaseURL}${path}`)
-  return res.json()
+  const res = await fetch(`${baseURL}${path}`)
+  return await res.json()
 }
-
-const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export async function getQuote() {
   const res = await fetch(`${baseURL}/api/quote`);
