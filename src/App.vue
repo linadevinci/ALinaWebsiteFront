@@ -53,11 +53,36 @@ import AppHeader from './components/AppHeader.vue';
   </div>
 </template>
 
-<script>
+<!-- <script>
 export default {
   name: "Home",
 };
+</script> -->
+
+<script>
+import { ref, onMounted } from 'vue';
+import { getQuote } from './api-client/api-client.js';
+
+export default {
+  name: "Home",
+  setup() {
+    const quote = ref(null);
+    const error = ref(null);
+
+    onMounted(async () => {
+      try {
+        quote.value = await getQuote();
+      } catch (err) {
+        error.value = "Impossible de récupérer la citation.";
+        console.error(err);
+      }
+    });
+
+    return { quote, error };
+  }
+};
 </script>
+
 
 <style scoped>
 .container {
@@ -173,28 +198,5 @@ export default {
   color: #666;
 }
 </style>
-<script>
-import { onMounted, ref } from 'vue';
-import { getQuote } from './api-client/api-client.js';
-
-export default {
-  name: "Home",
-  setup() {
-    const quote = ref(null);
-    const error = ref(null);
-
-    onMounted(async () => {
-      try {
-        quote.value = await getQuote();
-      } catch (err) {
-        error.value = "Impossible de récupérer la citation.";
-        console.error(err);
-      }
-    });
-
-    return { quote, error };
-  }
-};
-</script>
 
 
