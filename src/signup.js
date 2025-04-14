@@ -1,50 +1,18 @@
-// const usernameEl = document.querySelector('#username')
-// const emailEl = document.querySelector('#email')
-// const passwordEl = document.querySelector('#password')
-
-// export function signUp (event) {
-//   event.preventDefault()
-//   const username = usernameEl.value
-//   const email = emailEl.value
-//   const password = passwordEl.value
-  
-//   const data = {
-//     username,
-//     email,
-//     password,
-//   }
-
-//   fetch('/api/user', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(data)
-//   }).then((res) => {
-//     return res.text()
-//   }).then((text) => {
-//     console.log(text)
-//   }).catch(function (error) {
-//     console.log('Promise rejected with:', error)
-//   })
-// }
-
-//import { postJSON } from './api-client.js'
 import { postJSON } from './api-client/api-client.js'
-
-
-const usernameEl = document.querySelector('#username')
-const emailEl = document.querySelector('#email')
-const passwordEl = document.querySelector('#password')
 
 export async function signUp(event) {
   event.preventDefault()
+
+  const usernameEl = document.querySelector('#username')
+  const emailEl = document.querySelector('#email')
+  const passwordEl = document.querySelector('#password')
 
   const username = usernameEl.value
   const email = emailEl.value
   const password = passwordEl.value
 
   try {
+    // Étape 1 : création du compte
     const res = await postJSON('/api/users', {
       username,
       email,
@@ -56,8 +24,24 @@ export async function signUp(event) {
       return
     }
 
-    alert("Compte créé avec succès !")
-    window.location.href = '/signin'
+    // Étape 2 : login automatique
+    const loginRes = await postJSON('/api/token', {
+      username,
+      password
+    })
+
+    if (loginRes.error) {
+      alert(loginRes.error)
+      return
+    }
+
+    localStorage.setItem('authUsername', username)
+    localStorage.setItem('authMessage', loginRes.message)
+    localStorage.setItem('authQuote', JSON.stringify(loginRes.quote))
+
+    // Étape 3 : redirection vers dashboard
+    window.location.href = '/dashboard'
+
   } catch (err) {
     console.error('Erreur lors de l’inscription :', err)
     alert("Erreur lors de l’inscription")

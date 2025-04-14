@@ -1,62 +1,49 @@
-<!-- <script lang="ts" setup>
-import { ref } from 'vue'
-import BasicInput from './BasicInput.vue'
-import { postJSON } from '../api-client/api-client'
-import config from '../config.js'
+import { postJSON } from './api-client/api-client.js'
 
-const username = ref('')
-const email = ref('')
-const password = ref('')
+export async function signUp(event) {
+  event.preventDefault()
 
-function onSubmit (e: Event) {
-  postJSON(`${config.apiBaseURL}/api/users`, {
-      username: username.value,
-      password: password.value,
-      email: email.value
-  })
+  const usernameEl = document.querySelector('#username')
+  const emailEl = document.querySelector('#email')
+  const passwordEl = document.querySelector('#password')
+
+  const username = usernameEl.value
+  const email = emailEl.value
+  const password = passwordEl.value
+
+  try {
+    // Étape 1 : création du compte
+    const res = await postJSON('/api/users', {
+      username,
+      email,
+      password
+    })
+
+    if (res.error) {
+      alert(res.error)
+      return
+    }
+
+    // Étape 2 : login automatique
+    const loginRes = await postJSON('/api/token', {
+      username,
+      password
+    })
+
+    if (loginRes.error) {
+      alert(loginRes.error)
+      return
+    }
+
+    localStorage.setItem('authUsername', username)
+    localStorage.setItem('authMessage', loginRes.message)
+    localStorage.setItem('authQuote', JSON.stringify(loginRes.quote))
+
+    // Étape 3 : redirection vers dashboard
+    window.location.href = '/dashboard'
+
+  } catch (err) {
+    console.error('Erreur lors de l’inscription :', err)
+    alert("Erreur lors de l’inscription")
+  }
 }
-</script>
-
-<template>
-  <form
-    id="signup"
-    @submit.prevent="onSubmit($event)"
-  >
-    <fieldset>
-      <legend class="with-before">Please fill in the form</legend>
-      <BasicInput
-        id="username"
-        type="text"
-        label="Username"
-        v-model="username"
-      />
-      <BasicInput
-        label="Email"
-        type="email"
-        id="email"
-        v-model="email"
-      />
-      <BasicInput
-        id="password"
-        type="password"
-        label="Password"
-        v-model="password"
-      />
-    </fieldset>
-
-    <button type="submit">Sign up</button>
-  </form>
-</template> -->
-
-<template>
-  <form @submit="signUp">
-    <input id="username" placeholder="Nom d'utilisateur" required />
-    <input id="email" type="email" placeholder="Email" required />
-    <input id="password" type="password" placeholder="Mot de passe" required />
-    <button type="submit">Créer un compte</button>
-  </form>
-</template>
-
-<script setup>
-import { signUp } from '../signup.js'
-</script>
