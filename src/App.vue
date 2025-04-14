@@ -26,25 +26,25 @@ import AppHeader from './components/AppHeader.vue';
 <template>
   <div class="container">
     <header class="navbar">
-      <h1 class="logo">Daily Inspiration</h1>
+      <h1 class="logo">Inspiration du jour</h1>
       <div class="nav-buttons">
-        <button class="btn-outline">Sign In</button>
-        <button class="btn-filled">Sign Up</button>
+        <button class="btn-outline">Connexion</button>
+        <button class="btn-filled">Créer un compte</button>
       </div>
     </header>
 
     <main class="content">
       <div class="text-zone">
-        <h2>Start Your Day With <br />Inspiration</h2>
+        <h2>Commence ta journée<br />avec de l'inspiration</h2>
         <p>
-          Access a collection of motivational quotes to lift your spirits and brighten your day.
+          Découvre une citation motivante pour te donner l'élan nécessaire aujourd'hui.
         </p>
-        <button class="btn-main">Get Started</button>
+        <button class="btn-main">C'est parti !</button>
       </div>
 
       <div class="quote-box">
-        <p class="quote">"The best way to predict the future is to create it."</p>
-        <p class="author">— Abraham Lincoln</p>
+        <p class="quote">"Le plus grand risque est de ne prendre aucun risque."</p>
+        <p class="author">— Mark Zuckerberg</p>
       </div>
     </main>
   </div>
@@ -59,7 +59,7 @@ export default {
 <style scoped>
 .container {
   font-family: 'Segoe UI', sans-serif;
-  background: #ffffff;
+  background: linear-gradient(to right, #84d4fd, #c2a0ff);
   color: #333;
   min-height: 100vh;
 }
@@ -68,26 +68,28 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #84d4fd;
-  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1.5rem 3rem;
+  backdrop-filter: blur(10px);
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   color: white;
 }
 
 .nav-buttons button {
-  margin-left: 0.5rem;
+  margin-left: 1rem;
+  font-size: 1rem;
 }
 
 .btn-outline {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   background: transparent;
   border: 2px solid white;
   color: white;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -98,14 +100,13 @@ export default {
 }
 
 .btn-filled {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   background: white;
   border: none;
   color: #84d4fd;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-  transition: background 0.2s ease-in-out;
 }
 
 .btn-filled:hover {
@@ -114,60 +115,60 @@ export default {
 
 .content {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 4rem 2rem;
-  flex-wrap: wrap;
-}
-
-.text-zone {
-  max-width: 500px;
+  flex-direction: column;
+  align-items: center;
+  padding: 5rem 2rem;
+  text-align: center;
 }
 
 .text-zone h2 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: bold;
   margin-bottom: 1rem;
+  color: white;
 }
 
 .text-zone p {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   margin-bottom: 2rem;
+  color: white;
 }
 
 .btn-main {
-  padding: 0.75rem 1.5rem;
-  background: #84d4fd;
+  padding: 1rem 2rem;
+  background: white;
   border: none;
-  border-radius: 6px;
-  color: white;
-  font-size: 1rem;
+  border-radius: 8px;
+  color: #84d4fd;
+  font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
 }
 
 .btn-main:hover {
-  background: #61c0f8;
+  background: #dff4ff;
 }
 
 .quote-box {
-  background: #f5f5f5;
-  padding: 1.5rem;
-  margin-top: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 350px;
+  background: white;
+  padding: 2rem;
+  margin-top: 4rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  text-align: center;
 }
 
 .quote {
   font-style: italic;
-  font-size: 1.1rem;
+  font-size: 1.4rem;
 }
 
 .author {
-  text-align: right;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   font-weight: bold;
+  color: #666;
 }
 </style>
+
 
