@@ -1,49 +1,45 @@
-import { postJSON } from './api-client/api-client.js'
+<template>
+  <form @submit="signUp">
+    <input id="username" placeholder="Nom d'utilisateur" required />
+    <input id="email" type="email" placeholder="Email" required />
+    <input id="password" type="password" placeholder="Mot de passe" required />
+    <button type="submit">Créer un compte</button>
+  </form>
+</template>
 
-export async function signUp(event) {
-  event.preventDefault()
+<script setup>
+import { signUp } from '../signup.js'
+</script>
 
-  const usernameEl = document.querySelector('#username')
-  const emailEl = document.querySelector('#email')
-  const passwordEl = document.querySelector('#password')
-
-  const username = usernameEl.value
-  const email = emailEl.value
-  const password = passwordEl.value
-
-  try {
-    // Étape 1 : création du compte
-    const res = await postJSON('/api/users', {
-      username,
-      email,
-      password
-    })
-
-    if (res.error) {
-      alert(res.error)
-      return
-    }
-
-    // Étape 2 : login automatique
-    const loginRes = await postJSON('/api/token', {
-      username,
-      password
-    })
-
-    if (loginRes.error) {
-      alert(loginRes.error)
-      return
-    }
-
-    localStorage.setItem('authUsername', username)
-    localStorage.setItem('authMessage', loginRes.message)
-    localStorage.setItem('authQuote', JSON.stringify(loginRes.quote))
-
-    // Étape 3 : redirection vers dashboard
-    window.location.href = '/dashboard'
-
-  } catch (err) {
-    console.error('Erreur lors de l’inscription :', err)
-    alert("Erreur lors de l’inscription")
-  }
+<style scoped>
+form {
+  max-width: 400px;
+  margin: 4rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
+
+input, button {
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #84d4fd;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #5bc0f8;
+}
+</style>
