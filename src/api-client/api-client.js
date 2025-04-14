@@ -8,7 +8,7 @@
 //   })
 // }
 
-import config from './config.js'
+import config from '../config.js'
 
 export async function postJSON(path, data) {
   const res = await fetch(`${config.apiBaseURL}${path}`, {
