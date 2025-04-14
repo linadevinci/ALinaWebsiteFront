@@ -1,5 +1,5 @@
 <template>
-  <form @submit="signUp">
+  <form @submit="onSubmit">
     <input id="username" placeholder="Nom d'utilisateur" required />
     <input id="email" type="email" placeholder="Email" required />
     <input id="password" type="password" placeholder="Mot de passe" required />
@@ -9,6 +9,10 @@
 
 <script setup>
 import { signUp } from '../signup.js'
+
+function onSubmit(event) {
+  signUp(event)
+}
 </script>
 
 <style scoped>
