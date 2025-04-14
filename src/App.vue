@@ -1,28 +1,3 @@
-<!-- <script lang="ts" setup>
-import { RouterView } from 'vue-router';
-
-import AppHeader from './components/AppHeader.vue';
-</script>
-
-<template>
-  <AppHeader />
-  <main>
-    <header>
-      <RouterLink to="/signin">Sign in</RouterLink>
-      <RouterLink to="/signup">Sign up</RouterLink>
-    </header>
-    <RouterView />
-  </main>
-</template> -->
-
-<!-- <template>
-  <router-view />
-</template>
-
-<script setup>
-</script> -->
-
-
 <template>
   <div class="container">
     <header class="navbar">
@@ -39,7 +14,7 @@ import AppHeader from './components/AppHeader.vue';
         <p>
           Découvre une citation motivante pour te donner l'élan nécessaire aujourd'hui.
         </p>
-        <button class="btn-main">C'est parti !</button>
+        <button class="btn-main">C’est parti !</button>
       </div>
 
       <div class="quote-box" v-if="quote">
@@ -48,16 +23,9 @@ import AppHeader from './components/AppHeader.vue';
       </div>
       <p v-else-if="error" class="quote">{{ error }}</p>
       <p v-else class="quote">Chargement de la citation...</p>
-
     </main>
   </div>
 </template>
-
-<!-- <script>
-export default {
-  name: "Home",
-};
-</script> -->
 
 <script>
 import { ref, onMounted } from 'vue';
@@ -82,7 +50,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .container {
@@ -198,5 +165,3 @@ export default {
   color: #666;
 }
 </style>
-
-
