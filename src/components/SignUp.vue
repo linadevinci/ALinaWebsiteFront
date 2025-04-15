@@ -56,35 +56,29 @@ const password = ref('')
 
 async function handleSubmit() {
   try {
+    console.log("Sending registration request:", {
+      username: username.value,
+      email: email.value,
+      password: password.value.length + " chars" // Don't log the actual password
+    });
+    
     const res = await postJSON('/api/users', {
       username: username.value,
       email: email.value,
       password: password.value
-    })
+    });
+    
+    console.log("Registration response:", res);
 
     if (res.error) {
-      alert(res.error)
-      return
+      alert(res.error);
+      return;
     }
 
-    const loginRes = await postJSON('/api/token', {
-      username: username.value,
-      password: password.value
-    })
-
-    if (loginRes.error) {
-      alert(loginRes.error)
-      return
-    }
-
-    localStorage.setItem('authUsername', username.value)
-    localStorage.setItem('authMessage', loginRes.message)
-    localStorage.setItem('authQuote', JSON.stringify(loginRes.quote))
-
-    window.location.href = '/dashboard'
+    // Rest of your code...
   } catch (err) {
-    alert("Erreur lors de l'inscription")
-    console.error(err)
+    console.error("Registration error details:", err);
+    alert("Erreur lors de l'inscription: " + (err.message || 'Unknown error'));
   }
 }
 </script>
