@@ -3,51 +3,20 @@
     <header class="navbar">
       <h1 class="logo">Inspiration du jour</h1>
       <div class="nav-buttons">
-        <button class="btn-outline">Connexion</button>
-        <button class="btn-filled">Créer un compte</button>
+        <router-link to="/signin" class="btn-outline">Connexion</router-link>
+        <router-link to="/signup" class="btn-filled">Créer un compte</router-link>
       </div>
     </header>
 
     <main class="content">
-      <div class="text-zone">
-        <h2>Commence ta journée<br />avec de l'inspiration</h2>
-        <p>
-          Découvre une citation motivante pour te donner l'élan nécessaire aujourd'hui.
-        </p>
-        <button class="btn-main">C’est parti !</button>
-      </div>
-
-      <div class="quote-box" v-if="quote">
-        <p class="quote">"{{ quote.text }}"</p>
-        <p class="author">— {{ quote.author }}</p>
-      </div>
-      <p v-else-if="error" class="quote">{{ error }}</p>
-      <p v-else class="quote">Chargement de la citation...</p>
+      <router-view></router-view>
     </main>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import { getQuote } from './api-client/api-client.js';
-
 export default {
-  name: "Home",
-  setup() {
-    const quote = ref(null);
-    const error = ref(null);
-
-    onMounted(async () => {
-      try {
-        quote.value = await getQuote();
-      } catch (err) {
-        error.value = "Impossible de récupérer la citation.";
-        console.error(err);
-      }
-    });
-
-    return { quote, error };
-  }
+  name: "App"
 };
 </script>
 
@@ -74,9 +43,10 @@ export default {
   color: white;
 }
 
-.nav-buttons button {
+.nav-buttons a {
   margin-left: 1rem;
   font-size: 1rem;
+  text-decoration: none;
 }
 
 .btn-outline {
@@ -114,54 +84,5 @@ export default {
   align-items: center;
   padding: 5rem 2rem;
   text-align: center;
-}
-
-.text-zone h2 {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: white;
-}
-
-.text-zone p {
-  font-size: 1.3rem;
-  margin-bottom: 2rem;
-  color: white;
-}
-
-.btn-main {
-  padding: 1rem 2rem;
-  background: white;
-  border: none;
-  border-radius: 8px;
-  color: #84d4fd;
-  font-size: 1.1rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.btn-main:hover {
-  background: #dff4ff;
-}
-
-.quote-box {
-  background: white;
-  padding: 2rem;
-  margin-top: 4rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  text-align: center;
-}
-
-.quote {
-  font-style: italic;
-  font-size: 1.4rem;
-}
-
-.author {
-  margin-top: 1rem;
-  font-weight: bold;
-  color: #666;
 }
 </style>
