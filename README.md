@@ -30,6 +30,7 @@ git clone https://github.com/linadevinci/ALinaWebsiteFront.git
 cd ALinaWebsiteFront
 npm install
 npm run build
+```
 
-**### 🌐 Deployment
+## 🌐 Deployment
 The application is deployed on Netlify: https://alinafront.netlify.app/
