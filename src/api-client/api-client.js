@@ -1,6 +1,4 @@
-import config from '../config.js';
-const baseURL = import.meta.env.VITE_API_URL || config.apiBaseURL;
-//const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export async function postJSON(path, data) {
   const res = await fetch(`${baseURL}${path}`, {

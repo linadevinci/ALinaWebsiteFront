@@ -1,6 +1,13 @@
 <template>
   <div class="signup-container">
-    <div class="signup-card">
+    <div v-if="accountCreated" class="success-card">
+      <div class="success-icon">✓</div>
+      <h2>Compte créé avec succès !</h2>
+      <p>Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.</p>
+      <router-link to="/signin" class="btn-login">Se connecter</router-link>
+    </div>
+    
+    <div v-else class="signup-card">
       <h2>Créer un compte</h2>
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
@@ -35,8 +42,14 @@
           />
         </div>
         
-        <button type="submit" class="btn-submit">Créer mon compte</button>
+        <button type="submit" class="btn-submit" :disabled="isSubmitting">
+          {{ isSubmitting ? 'Création en cours...' : 'Créer mon compte' }}
+        </button>
       </form>
+      
+      <div v-if="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
       
       <div class="form-footer">
         <p>Déjà un compte ?</p>
@@ -53,13 +66,21 @@ import { postJSON } from '../api-client/api-client.js'
 const username = ref('')
 const email = ref('')
 const password = ref('')
+const isSubmitting = ref(false)
+const errorMessage = ref('')
+const accountCreated = ref(false)
 
 async function handleSubmit() {
+  if (isSubmitting.value) return;
+  
+  errorMessage.value = '';
+  isSubmitting.value = true;
+  
   try {
-    console.log("Sending registration request:", {
+    console.log("Envoi de la demande d'inscription:", {
       username: username.value,
       email: email.value,
-      password: password.value.length + " chars" // Don't log the actual password
+      password: "••••••••" // Ne pas afficher le mot de passe
     });
     
     const res = await postJSON('/api/users', {
@@ -68,17 +89,26 @@ async function handleSubmit() {
       password: password.value
     });
     
-    console.log("Registration response:", res);
+    console.log("Réponse d'inscription:", res);
 
     if (res.error) {
-      alert(res.error);
+      errorMessage.value = res.error;
       return;
     }
 
-    // Rest of your code...
+    // Si la création du compte a réussi, afficher le message de succès
+    accountCreated.value = true;
+    
+    // Optionnel: redirection automatique après un délai
+    // setTimeout(() => {
+    //   window.location.href = '/signin';
+    // }, 3000);
+    
   } catch (err) {
-    console.error("Registration error details:", err);
-    alert("Erreur lors de l'inscription: " + (err.message || 'Unknown error'));
+    console.error("Détails de l'erreur d'inscription:", err);
+    errorMessage.value = "Erreur lors de l'inscription: " + (err.message || 'Erreur inconnue');
+  } finally {
+    isSubmitting.value = false;
   }
 }
 </script>
@@ -91,7 +121,7 @@ async function handleSubmit() {
   min-height: 70vh;
 }
 
-.signup-card {
+.signup-card, .success-card {
   background: white;
   border-radius: 12px;
   padding: 2rem;
@@ -100,11 +130,36 @@ async function handleSubmit() {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
+.success-card {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.success-icon {
+  background: #4CAF50;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 0 auto 1.5rem;
+}
+
 h2 {
   color: #333;
   margin-bottom: 1.5rem;
   font-size: 1.8rem;
   text-align: center;
+}
+
+.success-card p {
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
 }
 
 .form-group {
@@ -145,8 +200,31 @@ input:focus {
   margin-top: 1rem;
 }
 
-.btn-submit:hover {
+.btn-submit:hover:not(:disabled) {
   background: linear-gradient(to right, #6bc0f0, #b08df2);
+}
+
+.btn-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-login {
+  background: linear-gradient(to right, #84d4fd, #c2a0ff);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-login:hover {
+  background: linear-gradient(to right, #6bc0f0, #b08df2);
+  transform: translateY(-2px);
 }
 
 .form-footer {
@@ -167,5 +245,15 @@ input:focus {
 
 .form-footer a:hover {
   text-decoration: underline;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 0.8rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
 }
 </style>
