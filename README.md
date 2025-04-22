@@ -1,6 +1,6 @@
 # ALinaWebsiteFront
 
-This repository contains the frontend of the ALina Website project, a quotes and inspiration app built with Vue.js 3.
+This repository contains the frontend application for a quotes and inspiration app. Built with Vue.js, this app allows users to create accounts, log in, and view inspiring quotes. The frontend interfaces with a backend API to handle user authentication and quote retrieval.
 
 ## ✨ Features
 
