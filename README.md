@@ -29,4 +29,4 @@ This repository contains the frontend of the ALina Website project, a quotes and
 git clone https://github.com/linadevinci/ALinaWebsiteFront.git
 cd ALinaWebsiteFront
 npm install
-npm run dev
+npm run build
